@@ -55,6 +55,13 @@ Use either a `for()` loop or an apply family function to go over the `Title` col
 * The name of the series if it had one
 * A clean title for the book
 
+The following functions will be helpful; be sure to read about them and test them out:
+
+* `strsplit()`
+* `trimws()`
+* `grepl()`
+* `gsub()`
+
 :::
 
 ```{r}
@@ -183,7 +190,7 @@ The challenge question will be looking at banned books by state, so we are going
 :::{.callout-note}
 ### Question 3
 
-Use a `for()` loop to iterate through each state, and sub-set the `banned_books` dataframe by that state. You should srote your results in the `state_books` list provided.
+Use a `for()` loop to iterate through each state, and sub-set the `banned_books` dataframe by that state. You should store your results in the `state_books` list provided.
 
 You want to end up with a list, `state_books`, that has an element for each state that appeared in our dataset, with the content of that element being a dataframe of all the books banned in that state.
 
@@ -249,6 +256,7 @@ Using the provided `get_book_info()` function, get some meta-data for each of th
 
 # No idea how people will tackle this.
 # Anything goes! So long as the output works.
+# Quite possible some solutions will score higher than mine, depending on approach
 # My solution would score the following.
 
 # Functions @ Progressing Toward Standard
