@@ -39,7 +39,6 @@ Load in the banned books CSV and assign it to an object named `banned_books`
 
 # <REPLACE THIS COMMENT WITH YOR ANSWER>
 
-banned_books = read.csv("data/banned_books.csv")
 ```
 
 ## Tidying the Title
@@ -68,119 +67,6 @@ The following functions will be helpful; be sure to read about them and test the
 
 # <REPLACE THIS COMMENT WITH YOR ANSWER>
 
-# A lot of freedom here. Their methods could be wildly different from mine!
-# As long as their output is the same, I don't care.
-# Students can do either a for loop or apply here. Standards differ slightly
-# The following should always be considered:
-
-# git @ ???
-#   Be checking their commits. Should really be pointing out sub-par commits
-
-# code style @ ???
-#   A lot of variation possible, most likely not past near standard. If people
-#   are still hardly commenting at all, it needs to be mentioned.
-
-## For Loop Strategy -----------------------------------------------------------
-
-# Iteration @ Near Standard
-#   Using loops
-
-# Data Structures @ ???
-#   Depends on the structures they employ. My example uses dataframes, so would
-#   be at Progressing Toward Standard
-
-## Apply Strategy --------------------------------------------------------------
-
-# Iteration @ Meets Standard
-#   Using apply functions
-
-# Data Structures @ ???
-#   Depends on the structures they employ. My example here uses lists,
-#   so near standard
-
-# Functions @ ???
-#   Depends on how they build their function for the apply. Mine here would
-#   be at Progressing Toward Standard given it has no error checking and
-#   can only really work on a specific input.
-#   Bump them higher if they do a better job!
-
-# FOR LOOP ---------------------------------------------------------------------
-
-# make dataframe for new info
-book_series = data.frame("title" = banned_books$Title, "clean_title" = NA, "series" = NA, "series_title" = NA)
-
-for(book in book_series$title){
-  
-  # is the book part of a series?
-  if(grepl(pattern =  "Series)", x = book, ignore.case = TRUE)){
-    
-    # if so, set series to TRUE
-    book_series[book_series$title == book, "series"] = TRUE
-    
-    # split the series title from book title
-    splits = strsplit(book, split = "(", fixed = TRUE)
-    
-    # extract clean title
-    book_series[book_series$title == book, "clean_title"] = trimws(splits[[1]][1])
-    
-    # clean series name
-    book_series[book_series$title == book, "series_title"] = gsub(" Series)", "", splits[[1]][2])
-    
-  } else {
-    
-    # otherwise, set series to false
-    book_series[book_series$title == book, "series"] = FALSE
-    
-    # and copy current title to clean
-    book_series[book_series$title == book, "clean_title"] = book
-  }
-  
-}
-
-# combine dfs
-banned_books = cbind(banned_books, book_series[, c("clean_title", "series", "series_title")])
-
-# APPLY ------------------------------------------------------------------------
-
-book_series = lapply(banned_books$Title, FUN = function(book){
-  
-  # make output df
-  output_df = data.frame("Title" = book, "clean_title" = NA, "series" = NA, "series_title" = NA)
-  
-  # is the book part of a series?
-  if(grepl(pattern =  "Series)", x = book, ignore.case = TRUE)){
-    
-    # is so, set series to TRUE
-    output_df[output_df$Title == book, "series"] = TRUE
-    
-    # split the series title from book title
-    splits = strsplit(book, split = "(", fixed = TRUE)
-    
-    # extract clean title
-    output_df[output_df$Title == book, "clean_title"] = trimws(splits[[1]][1])
-    
-    # clean series name
-    output_df[output_df$Title == book, "series_title"] = gsub(" Series)", "", splits[[1]][2])
-    
-  } else {
-    
-    # otherwise, set series to false
-    output_df[output_df$Title == book, "series"] = FALSE
-    
-    # and copy current title to clean
-    output_df[output_df$Title == book, "clean_title"] = book
-  }
-
-  # return
-  return(output_df)
-  
-})
-
-# combine list elements
-book_series = do.call(rbind, book_series)
-
-# combine dfs
-banned_books = cbind(banned_books, book_series[, c("clean_title", "series", "series_title")])
 ```
 
 ## Splitting the Data
@@ -204,15 +90,6 @@ state_books = list()
 
 #<REPLACE THIS COMMENT WITH YOR ANSWER>
 
-# iteration @ Near Standard
-# Data Structures @ Near Standard
-
-for(state in unique(banned_books$State)){
-  
-  # assign a subset dataframe for each state to a corresponding element in list.
-  state_books[[state]] = banned_books[banned_books$State == state, ]
-  
-}
 ```
 
 ## Getting Meta-Data
@@ -254,52 +131,7 @@ Using the provided `get_book_info()` function, get some meta-data for each of th
 
 ```{r}
 
-# No idea how people will tackle this.
-# Anything goes! So long as the output works.
-# Quite possible some solutions will score higher than mine, depending on approach
-# My solution would score the following.
-
-# Functions @ Progressing Toward Standard
-#   Using my pre-supplied function that has little flexibility
-# Iteration @ Meets Standard
-#   Using apply
-# Data Structures @ Meets Standard
-#   Using named vectors and converting to dfs
-
-# Create a df of unique titles and authors for Indiana
-book_search_df = unique(state_books[["Indiana"]][, c("clean_title", "Author")])
-
-# apply over unique books to get meta data
-book_meta_list = apply(book_search_df, 1, FUN = function(book_row){
-  
-  # run the api call
-  book_meta = get_book_info(book_name = book_row["clean_title"], author_name = book_row["Author"])
-  
-  # extract isbn
-  isbn_table = book_meta$industryIdentifiers[[1]]
-  
-  # get the metadata we want
-  meta = c(
-    "publisher" = book_meta$publisher,
-    "isbn13" = isbn_table[isbn_table$type == "ISBN_13", "identifier"],
-    "page_count" = book_meta$pageCount,
-    "maturity_rating" = book_meta$maturityRating,
-    "description" = book_meta$description
-  )
-  
-  # combine output with original data
-  out = c(book_row, meta)
-  
-  # convert to df
-  out_df = as.data.frame(t(out))
-  
-  # return
-  return(out_df)
-  
-})
-
-# combine list into final df
-book_meta_df = do.call(plyr::rbind.fill, book_meta_list)
+# <REPLACE THIS COMMENT WITH YOR ANSWER>
 
 ```
 
